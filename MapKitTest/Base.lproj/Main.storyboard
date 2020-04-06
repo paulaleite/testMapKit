@@ -18,17 +18,31 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="t4p-Mm-02c">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                             </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aik-zz-VeC">
+                                <rect key="frame" x="310" y="609" width="70" height="30"/>
+                                <color key="backgroundColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Directions">
+                                    <color key="titleColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="directionsPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="N5l-KL-E9h"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="t4p-Mm-02c" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="1a1-96-OXk"/>
                             <constraint firstItem="t4p-Mm-02c" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="7w7-VM-W9H"/>
+                            <constraint firstItem="aik-zz-VeC" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="565" id="Aw9-qV-1rs"/>
                             <constraint firstItem="t4p-Mm-02c" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="a6C-Oe-f2J"/>
                             <constraint firstItem="t4p-Mm-02c" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="eGP-dd-O7H"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="aik-zz-VeC" secondAttribute="bottom" constant="223" id="qZm-kz-XaY"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="aik-zz-VeC" secondAttribute="trailing" constant="20" id="tK5-TE-z7V"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="directionsButton" destination="aik-zz-VeC" id="dGg-F3-qey"/>
                         <outlet property="mapView" destination="t4p-Mm-02c" id="lUo-Ff-1dv"/>
                     </connections>
                 </viewController>

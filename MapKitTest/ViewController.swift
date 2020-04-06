@@ -11,6 +11,7 @@ import MapKit
 
 class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
 
+    @IBOutlet weak var directionsButton: UIButton!
     @IBOutlet weak var mapView: MKMapView!
     
     var locationManager = CLLocationManager()
@@ -24,6 +25,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         requestUserAuthorization()
         
         showUserLocation()
+    }
+    
+    
+    @IBAction func directionsPressed(_ sender: Any) {
+        let userLocation = mapView.userLocation.coordinate
+        
+        if points.count >= 1 {
+            requestDirectionsTo(source: userLocation, destination: points[0])
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -58,6 +68,26 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         }
     }
     
+    func requestDirectionsTo(source : CLLocationCoordinate2D, destination : CLLocationCoordinate2D) {
+        let request = MKDirections.Request()
+        request.source = MKMapItem(placemark: MKPlacemark(coordinate: source))
+        request.destination = MKMapItem(placemark: MKPlacemark(coordinate: destination))
+        request.requestsAlternateRoutes = true
+        request.transportType = .automobile
+        
+        let directions = MKDirections(request: request)
+        directions.calculate { (response, error) in
+            if error == nil {
+                if let routes = response?.routes {
+                    for route in routes {
+                        print(route.distance)
+                        self.mapView.addOverlays([route.polyline])
+                    }
+                }
+            }
+        }
+    }
+    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
             
             if let touch = touches.first {
@@ -72,6 +102,26 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                 mapView.addAnnotation(ann)
             }
         }
+    
+    func getRandomColor() -> UIColor{
+        let randomRed:CGFloat = CGFloat(drand48())
+        let randomGreen:CGFloat = CGFloat(drand48())
+        let randomBlue:CGFloat = CGFloat(drand48())
+
+        return UIColor(red: randomRed, green: randomGreen, blue: randomBlue, alpha: 1.0)
+    }
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+
+        if let overlay = overlay as? MKPolyline {
+            let poly = MKPolylineRenderer(overlay: overlay)
+            poly.strokeColor = getRandomColor()
+            poly.lineWidth = 3
+            return poly
+        }
+        
+        return MKCircleRenderer()
+    }
         
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
             let identifier = "Pin"
